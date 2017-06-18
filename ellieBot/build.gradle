@@ -1,0 +1,32 @@
+group 'me.ellie'
+version '1.0-SNAPSHOT'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    ext.kotlin_version = '1.1.2-5'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile 'com.github.kittinunf.fuel:fuel:1.1.2'
+    compile "org.reflections:reflections:0.9.11"
+    compile 'net.dv8tion:JDA:3.1.1_212'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+}
