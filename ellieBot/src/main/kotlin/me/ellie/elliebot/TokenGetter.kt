@@ -11,9 +11,6 @@ import java.net.URL
  *
  */
 class TokenGetter(clientId:String) {
-
-    //https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=zy62a2qnffbzpyzglwizy5mamaj6fk&redirect_uri=http://localhost&scope=chat_login
-    //https://api.twitch.tv/kraken/oauth2/authenticate?action=authorize&client_id=zy62a2qnffbzpyzglwizy5mamaj6fk&redirect_uri=http%3A%2F%2Flocalhost&response_type=token&scope=chat_login
     val url:URL = URL("https://api.twitch.tv/kraken/oauth2/authenticate?client_id=$clientId&redirect_uri=http://localhost&response_type=token&scope=chat_login")
     var token: String = ""
 
