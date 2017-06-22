@@ -11,8 +11,8 @@ import me.ellie.elliebot.util.TwitchConstants
  */
 class TwitchCmdShutdown : TwitchCommand("shutdown") {
 
-    override fun abstractExecute(sender:String, args: List<String>){
-        if(sender == TwitchConstants.ELLIE) EllieBot.instance.shutdown()
+    override fun abstractExecute(sender:String, args: List<String>) {
+        if (sender == TwitchConstants.ELLIE) EllieBot.instance.shutdown()
     }
 
 }

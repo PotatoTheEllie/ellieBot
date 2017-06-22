@@ -14,10 +14,9 @@ import java.util.*
  * Affiliated with www.minevelop.com
  *
  */
-
 class EllieBot private constructor(){
 
-    lateinit var heart : TwitchHeartbeat
+    lateinit var twitch : TwitchHeartbeat
     lateinit var discord: DiscordHeartbeat
     lateinit var settings: JsonBotConfig
 
@@ -26,7 +25,7 @@ class EllieBot private constructor(){
 
     fun init() {
         val start:Long = System.currentTimeMillis()
-        logInfo("Loading EllieBot for twitch/discord")
+        logInfo("Loading EllieBot for Twitch/Discord...")
 
         settings = JsonBotConfig()
 
@@ -43,18 +42,15 @@ class EllieBot private constructor(){
             discordCommands.put(command.label.toLowerCase(), command)
         }
         logInfo("Loaded ${discordCommands.size} Discord commands.")
+        twitch = TwitchHeartbeat(settings.settings["twitchToken"] as String, "literallybootie", settings.settings["twitchChannel"] as String, settings.settings["botPrefix"] as String)
+        twitch.init()
+        twitch.start()
 
-        //
-        heart = TwitchHeartbeat(settings.settings["twitchToken"] as String, "literallybootie", settings.settings["twitchChannel"] as String)
-        heart.init()
-        heart.start()
-
-        //
-        discord = DiscordHeartbeat(settings.settings["discordToken"] as String)
+        discord = DiscordHeartbeat(settings.settings["discordToken"] as String, settings.settings["botPrefix"] as String)
         discord.init()
         discord.start()
 
-        logInfo("Loaded in "+(System.currentTimeMillis() - start)+"ms")
+        logInfo("Loaded in ${System.currentTimeMillis() - start}ms.")
     }
 
     private object container {
@@ -71,11 +67,11 @@ class EllieBot private constructor(){
         twitchCommands.clear()
         discordCommands.clear()
 
-        heart.out.close()
-        heart.socket.close()
-        heart.announces.clear()
-        heart.r.shutdownNow()
-        heart.join()
+        twitch.out.close()
+        twitch.socket.close()
+        twitch.announces.clear()
+        twitch.r.shutdownNow()
+        twitch.join()
 
         discord.jda.shutdown(true)
         discord.join()

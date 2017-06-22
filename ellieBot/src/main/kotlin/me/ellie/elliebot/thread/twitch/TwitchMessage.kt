@@ -7,9 +7,6 @@ package me.ellie.elliebot.thread.twitch
  */
 class TwitchMessage(val sender:String, val timeStamp:String, val channel:String, val content:String){
 
-
-    override fun toString(): String {
-        return "[#$channel] $sender: $content"
-    }
+    override fun toString(): String = "[#$channel] $sender: $content"
 
 }

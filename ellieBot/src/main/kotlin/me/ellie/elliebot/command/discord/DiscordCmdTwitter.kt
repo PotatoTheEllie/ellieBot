@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent
  */
 class DiscordCmdTwitter : DiscordCommand("twitter", Permission.MESSAGE_WRITE, "twitter", 0) {
 
-    override fun abstractExecute(event: GuildMessageReceivedEvent, args: List<String>) = EllieBot.instance.discord.jda.getTextChannelById(DiscordConstants.GENERAL)
-            .sendMessage("Twitter: @literallyEllie").queue()
+    override fun abstractExecute(event: GuildMessageReceivedEvent, args: List<String>) =
+            EllieBot.instance.discord.jda.getTextChannelById(DiscordConstants.GENERAL).sendMessage("Twitter: @literallyEllie").queue()
 
 }

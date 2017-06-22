@@ -17,12 +17,13 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter
  * Affiliated with www.minevelop.com
  *
  */
-class DiscordHeartbeat(val loginToken:String): Thread() {
+class DiscordHeartbeat(val loginToken:String, val prefix:String): Thread() {
 
     lateinit var jda: JDA
     val instance:EllieBot = EllieBot.instance
 
     fun init() {
+
         jda = JDABuilder(AccountType.BOT)
                 .addEventListener(object : ListenerAdapter() {
 
@@ -30,28 +31,22 @@ class DiscordHeartbeat(val loginToken:String): Thread() {
                         val member: Member = event!!.member
                         val message: String = event.message.rawContent
 
-                        if (member.user.idLong == DiscordConstants.SELF || !message.startsWith("!")) return
+                        if (member.user.idLong == DiscordConstants.SELF || !message.startsWith(prefix)) return
 
-                        val msg: String = message.substring("!".length)
+                        val msg: String = message.substring(prefix.length)
                         instance.discordCommands[msg.toLowerCase()]?.execute(event, msg.split(" ".toRegex()))
                     }
 
-                    override fun onGuildMemberJoin(event: GuildMemberJoinEvent?) {
-                        jda.getTextChannelById(DiscordConstants.GENERAL).sendMessage("Heyo <@${event!!.member.user.idLong}>. Welcome Ellie's Discord!").queue()
-                    }
+                    override fun onGuildMemberJoin(event: GuildMemberJoinEvent?) =
+                            jda.getTextChannelById(DiscordConstants.GENERAL).sendMessage("Heyo <@${event!!.member.user.idLong}>. Welcome Ellie's Discord!").queue()
 
-                    override fun onGuildMemberLeave(event: GuildMemberLeaveEvent?) {
-                        jda.getTextChannelById(DiscordConstants.GENERAL).sendMessage("${event!!.member.nickname} left").queue()
-                    }
+                    override fun onGuildMemberLeave(event: GuildMemberLeaveEvent?)
+                            = jda.getTextChannelById(DiscordConstants.GENERAL).sendMessage("${event!!.member.nickname} left").queue()
 
                 })
                 .setGame(Game.of(instance.settings.settings["discordGameText"] as String, instance.settings.settings["discordGameUrl"] as String))
                 .setToken(loginToken).buildAsync()
 
     }
-
-
-
-
-
+    
 }

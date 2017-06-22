@@ -12,8 +12,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent
  */
 class DiscordCmdShutdown : DiscordCommand("shutdown", Permission.ADMINISTRATOR, "shutdown", 0){
 
-    override fun abstractExecute(event: GuildMessageReceivedEvent, args: List<String>) {
-        EllieBot.instance.shutdown(0)
-    }
+    override fun abstractExecute(event: GuildMessageReceivedEvent, args: List<String>) = EllieBot.instance.shutdown(0)
+
 
 }

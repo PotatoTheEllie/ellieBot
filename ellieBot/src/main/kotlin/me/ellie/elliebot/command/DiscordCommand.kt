@@ -30,8 +30,7 @@ abstract class DiscordCommand(val label:String, val permission: Permission = Per
         abstractExecute(event, args)
     }
 
-    fun message(message:String, channel:TextChannel){
-        channel.sendMessage("[${label.capitalize()}] $message").queue()
-    }
+    fun message(message:String, channel:TextChannel) = channel.sendMessage("[${label.capitalize()}] $message").queue()
+
 
 }

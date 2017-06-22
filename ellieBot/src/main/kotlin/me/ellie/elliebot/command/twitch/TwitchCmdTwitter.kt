@@ -1,5 +1,6 @@
 package me.ellie.elliebot.command.twitch
 
+import me.ellie.elliebot.EllieBot
 import me.ellie.elliebot.command.TwitchCommand
 
 /**
@@ -9,7 +10,7 @@ import me.ellie.elliebot.command.TwitchCommand
  */
 class TwitchCmdTwitter : TwitchCommand("twitter") {
 
-    override fun abstractExecute(sender: String, args: List<String>) = me.ellie.elliebot.EllieBot.Companion.instance.heart.writeMessage("Twitter: @literallyEllie")
+    override fun abstractExecute(sender: String, args: List<String>) = EllieBot.instance.twitch.writeMessage("Twitter: @literallyEllie")
 
 
 }

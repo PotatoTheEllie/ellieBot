@@ -18,7 +18,7 @@ import java.util.concurrent.Executors
  * Affiliated with www.minevelop.com
  *
  */
-class TwitchHeartbeat(val clientKey:String, val nick:String, val channel:String): Thread() {
+class TwitchHeartbeat(val clientKey:String, val nick:String, val channel:String, val prefix:String): Thread() {
 
     val instance:EllieBot = EllieBot.instance
     val socket: Socket = Socket("irc.chat.twitch.tv", 6667)
@@ -55,16 +55,16 @@ class TwitchHeartbeat(val clientKey:String, val nick:String, val channel:String)
                     continue
                 }
                 try {
-                    println(line)
                     if(line.contains("PRIVMSG")){
-                        if(line.contains("#literallyellie :!")) {
-                            parseInput(line.split("#${instance.settings.settings["twitchChannel"]}:!")[1], line.split("!")[0].substring(":".length))
+                        if(line.contains("$channel :$prefix")) {
+                            parseInput(line.split("#${instance.settings.settings["twitchChannel"]}:$prefix")[1], line.split("!")[0].substring(":".length))
                             continue
                         }
 
-                        val message:TwitchMessage = TwitchMessage(line.split("!")[0].substring(":".length),
+                        val message:TwitchMessage = TwitchMessage(line.split(prefix)[0].substring(":".length),
                                 DateUtil.getDate(), line.split("#")[1].split(" ")[0], line.substring(line.split(":")[1].length).trim())
                         log.write(message.toString())
+                        System.out.println("[Chat] $message")
                     }
 
                 }catch(e:IndexOutOfBoundsException){
@@ -99,14 +99,10 @@ class TwitchHeartbeat(val clientKey:String, val nick:String, val channel:String)
         out.flush()
     }
 
-    fun writeMessage(message:String){
-        writeSocket("PRIVMSG #$channel :$message")
-    }
+    fun writeMessage(message:String) = writeSocket("PRIVMSG #$channel :$message")
 
     fun parseInput(sender:String, input:String){
-        if(sender.isEmpty() || input.isEmpty()){
-            return
-        }
+        if(sender.isEmpty() || input.isEmpty()) return
 
         val args:List<String> = input.split(" ")
         println("Received command query $input from $sender")

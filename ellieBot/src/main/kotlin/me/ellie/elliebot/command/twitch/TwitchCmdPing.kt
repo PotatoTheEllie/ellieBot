@@ -9,6 +9,6 @@ import me.ellie.elliebot.EllieBot
  */
 class TwitchCmdPing : me.ellie.elliebot.command.TwitchCommand("ping"){
 
-    override fun abstractExecute(sender:String, args: List<String>) = me.ellie.elliebot.EllieBot.Companion.instance.heart.writeMessage("Pong!")
+    override fun abstractExecute(sender:String, args: List<String>) = me.ellie.elliebot.EllieBot.Companion.instance.twitch.writeMessage("Pong!")
 
 }
